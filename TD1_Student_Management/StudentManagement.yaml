@@ -1,0 +1,182 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: Student Management API
+  description: API for proup management and student management 
+servers:
+  - description: SwaggerHub Mock Server
+    url: https://virtserver.swaggerhub.com/HEIONJA2/HEI_Management/1.0.0
+paths:
+  /groups:
+    get:
+      summary: List of group
+      description: Return List
+      parameters:
+        - name: groupName
+          in: query
+          description: Filter group by name
+          required: false
+          schema:
+            type: string
+        - name: groupYear
+          in: query
+          description: Filter by year
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: promotion
+          in: query
+          description: Filter by promotion
+          required: false
+          schema:
+            type: string
+            enum: [G, H, J, K]
+      responses:
+        '200':
+          description: Liste of group
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
+    post:
+      summary: Add new group
+      description: Create new group.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+      responses:
+        '201':
+          description: Group creation successfully
+    put:
+      summary: modify a group
+      description: update group.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+      responses:
+        '200':
+          description: Updated group
+    delete:
+      summary: Remove group
+      description: Remove group by ID.
+      parameters:
+        - name: id
+          in: query
+          description: ID of group to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Group deleted
+  /students:
+    get:
+      summary: List of students
+      description: Return list of students
+      parameters:
+        - name: studentName
+          in: query
+          description: Filter student by name
+          required: false
+          schema:
+            type: string
+        - name: sex
+          in: query
+          description: Filter by sex
+          required: false
+          schema:
+            type: string
+            enum: [M, F]
+      responses:
+        '200':
+          description: List of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+    post:
+      summary: Add student
+      description: Create new student.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '201':
+          description: Creation student successfully
+    put:
+      summary: Modify student
+      description: Update student.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '200':
+          description: Student updated
+    delete:
+      summary: Delete student
+      description: Remove student by ID.
+      parameters:
+        - name: id
+          in: query
+          description: ID of the student to remove
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Student deleted successfully
+components:
+  schemas:
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+        groupName:
+          type: string
+        groupYear:
+          type: string
+          format: date
+        promotion:
+          type: string
+          enum: [G, H, J, K]
+        studentNb:
+          type: integer
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/Student'
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        sex:
+          type: string
+          enum: [M, F]
+        birthdate:
+          type: string
+          format: date
+        reference:
+          type: string
+        group:
+          type: string
