@@ -162,7 +162,7 @@ components:
         students:
           type: array
           items:
-            $ref: '#/components/schemas/Student'
+            $ref: '#/components/schemas/Group'
     Student:
       type: object
       properties:
@@ -180,3 +180,4 @@ components:
           type: string
         group:
           type: string
+            $ref: '#/components/schemas/Student'
